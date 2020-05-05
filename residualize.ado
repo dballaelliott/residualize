@@ -1,5 +1,15 @@
 cap program drop residualize 
 program residualize 
+/****************************************************************************** 
+required: varname varlist
+    first variable = variable to residualize
+    second variable (or varlist) = variable that we are residualizing on 
+        (i.e. pulling out)
+also required: 
+    either replace or [gen]erate
+        generate puts the residualized version in a new variable
+        replace replaces varname with the residualized version
+******************************************************************************/
 syntax varlist(min=2), [replace] [GENerate(name)]
 
 local y: word 1 of `varlist' 
