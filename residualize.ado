@@ -1,3 +1,5 @@
+**! version 0.0.2
+
 cap program drop residualize 
 program residualize 
 /****************************************************************************** 
@@ -10,7 +12,7 @@ also required:
         generate puts the residualized version in a new variable
         replace replaces varname with the residualized version
 ******************************************************************************/
-syntax varlist(min=2), [replace] [GENerate(name)]
+syntax varlist(min=2 ts fv), [replace] [GENerate(name)]
 
 local y: word 1 of `varlist' 
 
@@ -24,6 +26,6 @@ predict `residual', residual
 ** TODO: move the bottom error up to the top and check it before we actually do stuff.
 if !missing("`replace'") replace `y' = `residual' + `mu' 
 else if !missing("`generate'") gen `generate' = `residual' + `mu' 
-else di as error "Please specificy" as input "replace" as error " or " as input "generate({it:varname})" 
+else di as error "Please specificy " as input "replace" as error " or " as input "generate({it:varname})" 
 
 end 
