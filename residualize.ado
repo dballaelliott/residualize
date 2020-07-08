@@ -1,4 +1,4 @@
-**! version 0.0.2
+**! version 0.0.3
 
 cap program drop residualize 
 program residualize 
@@ -12,11 +12,14 @@ also required:
         generate puts the residualized version in a new variable
         replace replaces varname with the residualized version
 ******************************************************************************/
-syntax varlist(min=2 ts fv), [replace] [GENerate(name)]
+syntax varlist(min=1 ts fv), [replace] [GENerate(name) absorb(passthru)]
+
+if missing("`absorb'") local absorb noabsorb 
 
 local y: word 1 of `varlist' 
 
-regress `varlist'
+reghdfe `varlist', `absorb' resid 
+
 su `y' if e(sample), meanonly 
 local mu = `r(mean)'
 
